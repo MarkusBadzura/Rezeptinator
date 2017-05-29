@@ -13,7 +13,7 @@ import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 /**
  * Rezeptinator
  * @author Markus Badzura
- * @version 1.0.001
+ * @version 1.0.002
  */
 public class rezeptinator_gui extends JFrame
 {
@@ -30,13 +30,14 @@ public class rezeptinator_gui extends JFrame
     /**
      * Kontruktor Startfenster Rezeptinator
      * @author Markus Badzura
-     * @since 1.0.001
+     * @since 1.0.002
      */
     public void rezeptinator_gui()
     {
-        this.setTitle("Rezeptinator");
+        this.setTitle("Rezeptinator v1.0");
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        this.setLayout(null);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e)
@@ -44,11 +45,13 @@ public class rezeptinator_gui extends JFrame
                 exit();
             }
         });          
+        rezeptinator_hintergrund bgp = new rezeptinator_hintergrund();
+        bgp.setBounds(0,0,SCREENSIZE.width,SCREENSIZE.height);
+        add(bgp);
         this.setSize(SCREENSIZE);
         this.setIconImage(ICON.getImage());
         this.setMinimumSize(SCREENSIZE);
-        this.setLayout(null);
-        setVisible(true);          
+        setVisible(true);
     }
      /**
      * Abfragedialog beim Beenden des Programmes, inclusive des Schließens
