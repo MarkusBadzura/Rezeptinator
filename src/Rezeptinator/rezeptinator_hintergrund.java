@@ -20,7 +20,6 @@ public class rezeptinator_hintergrund extends JPanel
      */
     public rezeptinator_hintergrund() 
     {
-
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("holz.jpg"));
         img = imageIcon.getImage();
     }
