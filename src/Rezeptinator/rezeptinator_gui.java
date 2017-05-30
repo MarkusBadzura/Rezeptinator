@@ -2,6 +2,7 @@ package Rezeptinator;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +12,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -25,7 +28,7 @@ import javax.swing.border.LineBorder;
 /**
  * Rezeptinator
  * @author Markus Badzura
- * @version 1.0.003
+ * @version 1.0.004
  */
 public class rezeptinator_gui extends JFrame implements ActionListener, KeyListener
 {
@@ -39,6 +42,8 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
     // Erstellen ImageIcon-Objekt
     private static final ImageIcon ICON = new ImageIcon(URLICON);
     private static final Dimension SCREENSIZE = java.awt.Toolkit.getDefaultToolkit().getScreenSize ();
+    private String Versionsnummer = "1.0.004";
+    rezeptinator_hintergrund bgp,bgp_dia;
     ///////////////////////////////////////////////////////////////////////////
     //                                                                       //
     // Deklaration MenuBar                                                   //
@@ -49,6 +54,15 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
     JMenu jm_datei, jm_hilfe;
     JMenuItem jmi_datei_beenden,
             jmi_hilfe_hilfe, jmi_hilfe_about;
+    ///////////////////////////////////////////////////////////////////////////
+    //                                                                       //
+    // Deklaration Dialogfenster HILFE - ABOUT                               //
+    //                                                                       //
+    ///////////////////////////////////////////////////////////////////////////   
+    JDialog jd_about;
+    JLabel lbl_about, lbl_about_programmierer, lbl_about_name, lbl_about_strasse,
+            lbl_about_plz_ort, lbl_about_eMail, lbl_about_version, 
+            lbl_about_version_nr, lbl_about_c;
     /**
      * Kontruktor Startfenster Rezeptinator
      * @author Markus Badzura
@@ -76,7 +90,7 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
                 exit();
             }
         });          
-        rezeptinator_hintergrund bgp = new rezeptinator_hintergrund();
+        bgp = new rezeptinator_hintergrund();
         bgp.setBounds(0,0,SCREENSIZE.width,SCREENSIZE.height);
         this.add(bgp);
         this.setSize(SCREENSIZE);
@@ -145,7 +159,76 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
      */
     private void oeffneAbout()
     {
-        //@todo Dialogfenster about öffnen
+        jd_about = new JDialog(this,"Allgemeine Informationen",true);
+        jd_about.setSize(600,300);
+        jd_about.setLayout(null);
+        jd_about.setLocation(SCREENSIZE.width/2-300, SCREENSIZE.height/2-150);
+        jd_about.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        jd_about.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                jd_about.dispose();
+            }
+        });   
+        bgp_dia = new rezeptinator_hintergrund();
+        bgp_dia.setBounds(0,0,SCREENSIZE.width,SCREENSIZE.height);
+        lbl_about = new JLabel("Allgemeine Informationen über Rezeptinator",JLabel.CENTER);
+        lbl_about.setFont(lbl_about.getFont().deriveFont(18f));
+        lbl_about.setFont(lbl_about.getFont().deriveFont(Font.BOLD));
+        lbl_about.setForeground(Color.cyan);
+        lbl_about.setBounds(0,0,500,30);
+        lbl_about_programmierer = new JLabel("Programmiert von :", JLabel.RIGHT);
+        lbl_about_programmierer.setFont(lbl_about_programmierer.getFont().deriveFont(14f));
+        lbl_about_programmierer.setFont(lbl_about_programmierer.getFont().deriveFont(Font.BOLD));
+        lbl_about_programmierer.setForeground(Color.cyan);
+        lbl_about_programmierer.setBounds(0,50,180,25);
+        lbl_about_name = new JLabel("Markus Badzura");
+        lbl_about_name.setFont(lbl_about_name.getFont().deriveFont(14f));
+        lbl_about_name.setFont(lbl_about_name.getFont().deriveFont(Font.BOLD));
+        lbl_about_name.setForeground(Color.cyan);
+        lbl_about_name.setBounds(185,50,250,25);
+        lbl_about_strasse = new JLabel("Ungarnstraße 62");
+        lbl_about_strasse.setFont(lbl_about_strasse.getFont().deriveFont(14f));
+        lbl_about_strasse.setFont(lbl_about_strasse.getFont().deriveFont(Font.BOLD));
+        lbl_about_strasse.setForeground(Color.cyan);
+        lbl_about_strasse.setBounds(185,75,250,25);
+        lbl_about_plz_ort = new JLabel("13349 Berlin");
+        lbl_about_plz_ort.setFont(lbl_about_plz_ort.getFont().deriveFont(14f));
+        lbl_about_plz_ort.setFont(lbl_about_plz_ort.getFont().deriveFont(Font.BOLD));
+        lbl_about_plz_ort.setForeground(Color.cyan);
+        lbl_about_plz_ort.setBounds(185,100,350,25);  
+        lbl_about_eMail = new JLabel("markus.badzura@markus-badzura.info");
+        lbl_about_eMail.setFont(lbl_about_eMail.getFont().deriveFont(14f));
+        lbl_about_eMail.setFont(lbl_about_eMail.getFont().deriveFont(Font.BOLD));
+        lbl_about_eMail.setForeground(Color.cyan);
+        lbl_about_eMail.setBounds(185,140,350,25);         
+        lbl_about_version = new JLabel("Version :",JLabel.RIGHT);
+        lbl_about_version.setFont(lbl_about_version.getFont().deriveFont(14f));
+        lbl_about_version.setFont(lbl_about_version.getFont().deriveFont(Font.BOLD));
+        lbl_about_version.setForeground(Color.cyan);
+        lbl_about_version.setBounds(0,180,180,25); 
+        lbl_about_version_nr = new JLabel(Versionsnummer);
+        lbl_about_version_nr.setFont(lbl_about_version_nr.getFont().deriveFont(14f));
+        lbl_about_version_nr.setFont(lbl_about_version_nr.getFont().deriveFont(Font.BOLD));
+        lbl_about_version_nr.setForeground(Color.cyan);
+        lbl_about_version_nr.setBounds(185,180,250,25);  
+        lbl_about_c = new JLabel("(c) 2017 by Markus Badzura",JLabel.CENTER);
+        lbl_about_c.setFont(lbl_about_c.getFont().deriveFont(14f));
+        lbl_about_c.setFont(lbl_about_c.getFont().deriveFont(Font.BOLD));
+        lbl_about_c.setForeground(Color.cyan);
+        lbl_about_c.setBounds(0,220,500,25);         
+        jd_about.add(lbl_about_c);
+        jd_about.add(lbl_about_version_nr);
+        jd_about.add(lbl_about_version);
+        jd_about.add(lbl_about_eMail);
+        jd_about.add(lbl_about_plz_ort);
+        jd_about.add(lbl_about_strasse);
+        jd_about.add(lbl_about_name);
+        jd_about.add(lbl_about_programmierer);
+        jd_about.add(lbl_about);
+        jd_about.add(bgp_dia);
+        jd_about.setVisible(true);
     }
     /**
      * Action-Listener für Menü- und Button-Ereignisses
