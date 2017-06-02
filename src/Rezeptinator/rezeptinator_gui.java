@@ -21,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -28,7 +29,7 @@ import javax.swing.border.LineBorder;
 /**
  * Rezeptinator
  * @author Markus Badzura
- * @version 1.0.004
+ * @version 1.0.005
  */
 public class rezeptinator_gui extends JFrame implements ActionListener, KeyListener
 {
@@ -42,7 +43,9 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
     // Erstellen ImageIcon-Objekt
     private static final ImageIcon ICON = new ImageIcon(URLICON);
     private static final Dimension SCREENSIZE = java.awt.Toolkit.getDefaultToolkit().getScreenSize ();
-    private String Versionsnummer = "1.0.004";
+    private final String VERSIONSNUMMER = "1.0.005";
+    private final String VERSION = "1.0";
+    rezeptinator_hilfe rzh = new rezeptinator_hilfe();
     rezeptinator_hintergrund bgp,bgp_dia;
     ///////////////////////////////////////////////////////////////////////////
     //                                                                       //
@@ -68,14 +71,13 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
      * @author Markus Badzura
      * @since 1.0.002
      */
-    @SuppressWarnings("UseSpecificCatch")
     public void rezeptinator_gui()
     {
         try 
         {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } 
-        catch (Exception e) 
+        catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) 
         {
             System.err.println("Setting Look and Feel Failed");
         }
@@ -150,7 +152,8 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
      */
     private void oeffneHilfe()
     {
-        //@todo Hilfefenster öffnen
+        if (!rzh.isAktiv())
+            rzh.rezeptinator_hilfe(VERSION);
     }
     /**
      * Allgemeine Progamminformationen öffnen
@@ -208,7 +211,7 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
         lbl_about_version.setFont(lbl_about_version.getFont().deriveFont(Font.BOLD));
         lbl_about_version.setForeground(Color.cyan);
         lbl_about_version.setBounds(0,180,180,25); 
-        lbl_about_version_nr = new JLabel(Versionsnummer);
+        lbl_about_version_nr = new JLabel(VERSIONSNUMMER);
         lbl_about_version_nr.setFont(lbl_about_version_nr.getFont().deriveFont(14f));
         lbl_about_version_nr.setFont(lbl_about_version_nr.getFont().deriveFont(Font.BOLD));
         lbl_about_version_nr.setForeground(Color.cyan);
