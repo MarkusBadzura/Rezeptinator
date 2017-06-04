@@ -29,7 +29,7 @@ import javax.swing.border.LineBorder;
 /**
  * Rezeptinator
  * @author Markus Badzura
- * @version 1.0.005
+ * @version 1.0.006
  */
 public class rezeptinator_gui extends JFrame implements ActionListener, KeyListener
 {
@@ -43,10 +43,11 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
     // Erstellen ImageIcon-Objekt
     private static final ImageIcon ICON = new ImageIcon(URLICON);
     private static final Dimension SCREENSIZE = java.awt.Toolkit.getDefaultToolkit().getScreenSize ();
-    private final String VERSIONSNUMMER = "1.0.005";
+    private final String VERSIONSNUMMER = "1.0.006";
     private final String VERSION = "1.0";
-    rezeptinator_hilfe rzh = new rezeptinator_hilfe();
-    rezeptinator_hintergrund bgp,bgp_dia;
+    private rezeptinator_hilfe rzh = new rezeptinator_hilfe();
+    private rezeptinator_hintergrund bgp,bgp_dia;
+    private rezeptinator_errorlog err = new rezeptinator_errorlog();
     ///////////////////////////////////////////////////////////////////////////
     //                                                                       //
     // Deklaration MenuBar                                                   //
@@ -69,7 +70,7 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
     /**
      * Kontruktor Startfenster Rezeptinator
      * @author Markus Badzura
-     * @since 1.0.002
+     * @since 1.0.006
      */
     public void rezeptinator_gui()
     {
@@ -79,7 +80,7 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
         } 
         catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) 
         {
-            System.err.println("Setting Look and Feel Failed");
+            err.schreibe(e.toString(), "rezeptinator_gui");
         }
         this.setTitle("Rezeptinator v1.0");
         this.setExtendedState(MAXIMIZED_BOTH);

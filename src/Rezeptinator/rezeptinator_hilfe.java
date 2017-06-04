@@ -34,7 +34,7 @@ import javax.swing.text.html.HTMLEditorKit;
 /**
  * Rezeptinator Hilfefenster
  * @author Markus Badzura
- * @version 1.0.005
+ * @version 1.0.006
  */
 public class rezeptinator_hilfe extends JFrame implements ComponentListener, ListSelectionListener
         ,ChangeListener, ActionListener
@@ -56,6 +56,7 @@ public class rezeptinator_hilfe extends JFrame implements ComponentListener, Lis
     private String[] htext;
     private HTMLEditorKit eKit = new HTMLEditorKit();
     boolean aktiv = false;
+    private rezeptinator_errorlog err = new rezeptinator_errorlog();
     ///////////////////////////////////////////////////////////////////////////
     //                                                                       //
     // Deklaration Hilfefenster Bedienelemente                               //
@@ -73,7 +74,7 @@ public class rezeptinator_hilfe extends JFrame implements ComponentListener, Lis
      * Setzen des Hilfefensters
      * @param version String mit der aktuellen Versionsnummer
      * @author Markus Badzura
-     * @since 1.0.005
+     * @since 1.0.006
      */
     public void rezeptinator_hilfe(String version)
     {
@@ -83,7 +84,7 @@ public class rezeptinator_hilfe extends JFrame implements ComponentListener, Lis
         } 
         catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) 
         {
-            System.err.println("Setting Look and Feel Failed");
+            err.schreibe(e.toString(), "rezeptinator_hilfe");
         }
         this.setTitle("Rezeptinator "+version+" - Hilfe");
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -212,7 +213,7 @@ public class rezeptinator_hilfe extends JFrame implements ComponentListener, Lis
      * Befüllen der Liste mit Hilfethemen, dessen Schlagwort in der Hilfe-
      * anfrage des Benutzers vorkommt.
      * @author Markus Badzura
-     * @since 1.0.005
+     * @since 1.0.006
      */
     private void fillSuche()
     {
@@ -231,10 +232,8 @@ public class rezeptinator_hilfe extends JFrame implements ComponentListener, Lis
             for (int i = 0; i < l_hilfetext.size();i++)
             {
                 rht_temp = (rezeptinator_hilfe_text)l_hilfetext.get(i);
-                System.out.println(rht_temp.getSchlagwort());
                 if (temp.toLowerCase().contains(rht_temp.getSchlagwort().toLowerCase()))
                 {
-                    System.out.println(rht_temp.getSchlagwort().toLowerCase() + " + "+ temp.toLowerCase());
                     dlm_suche.add(index, rht_temp.getHilfelink());
                     l_suchhilfe.add(rht_temp);
                     ++index;

@@ -12,7 +12,7 @@ import org.jdom2.input.SAXBuilder;
 /**
  * Rezeptinator Auslesen des Hilfetextes aus XML-Datei
  * @author Markus Badzura
- * @version 1.0.005
+ * @version 1.0.006
  */
 public class rezeptinator_hilfe_xmllesen 
 {
@@ -23,11 +23,12 @@ public class rezeptinator_hilfe_xmllesen
     ///////////////////////////////////////////////////////////////////////////    
     private String schlagwort, hilfelink, antwort;
     private List rht;
+    private rezeptinator_errorlog err = new rezeptinator_errorlog();
     /**
      * Hilfethemen aus XML auslesen und in Hilfethema wandeln.
      * Speichern in List
      * @author Markus Badzura
-     * @since 1.0.005
+     * @since 1.0.006
      */
     public void hilfeXmlAuslesen()
     {
@@ -51,7 +52,7 @@ public class rezeptinator_hilfe_xmllesen
         } 
         catch (JDOMException | IOException e) 
         {
-            System.out.println(e);
+            err.schreibe(e.toString(), "hilfeXmlAuslesen");
         }
     } 
     /**
