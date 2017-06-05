@@ -4,7 +4,7 @@
     Rezeptinator Hilfe 
     Fragen und Antworten
     @author Makus Badzura
-    @version 1.0.006
+    @version 1.0.007
 -->
 
 <Hilfe>
@@ -24,7 +24,14 @@
                 <Hilfelink>Wo finde ich den Errorlog?</Hilfelink>
                 <Antwort>   Den Errorlog finden Sie in Ihrem Anwendungsverzeichnis im Ordner <strong>err</strong>.&lt;br&gt;&lt;br&gt;
                             Es handelt sich hierbei um eine .txt-Datei, in welcher die Fehler, welche die Anwendung verursacht und ermitteln konnte, monatlich zusammenfasst.&lt;br&gt;&lt;br&gt;
-                            Diese Textdatei ist bei Fehlermeldungen immer mitzusenden, da dies die Suche nach der Fehlerquelle vereinfacht.s
+                            Diese Textdatei ist bei Fehlermeldungen immer mitzusenden, da dies die Suche nach der Fehlerquelle vereinfacht.
                 </Antwort>
-        </Hilfetext>        
+        </Hilfetext>  
+        <Hilfetext>
+                <Schlagwort>Config</Schlagwort>
+                <Hilfelink>Wie kann ich die Config zurücksetzen?</Hilfelink>
+                <Antwort>   Um die Konfigurationsdatei zurückzusetzen, wählen Sie den Menüpunkt DATEI - CONFIG - ZURÜCKSETZEN.&lt;br&gt;&lt;br&gt;
+                            Die Config wird nun wieder auf die Standardwerte gesetzt.
+                </Antwort>
+        </Hilfetext>                
 </Hilfe>

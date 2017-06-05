@@ -11,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -19,6 +20,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -29,7 +33,7 @@ import javax.swing.border.LineBorder;
 /**
  * Rezeptinator
  * @author Markus Badzura
- * @version 1.0.006
+ * @version 1.0.007
  */
 public class rezeptinator_gui extends JFrame implements ActionListener, KeyListener
 {
@@ -43,11 +47,12 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
     // Erstellen ImageIcon-Objekt
     private static final ImageIcon ICON = new ImageIcon(URLICON);
     private static final Dimension SCREENSIZE = java.awt.Toolkit.getDefaultToolkit().getScreenSize ();
-    private final String VERSIONSNUMMER = "1.0.006";
+    private final String VERSIONSNUMMER = "1.0.007";
     private final String VERSION = "1.0";
     private rezeptinator_hilfe rzh = new rezeptinator_hilfe();
     private rezeptinator_hintergrund bgp,bgp_dia;
     private rezeptinator_errorlog err = new rezeptinator_errorlog();
+    private rezeptinator_config config = new rezeptinator_config();
     ///////////////////////////////////////////////////////////////////////////
     //                                                                       //
     // Deklaration MenuBar                                                   //
@@ -55,8 +60,8 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
     ///////////////////////////////////////////////////////////////////////////    
     Border bo_menuBar = new LineBorder(Color.BLACK);
     JMenuBar jmb;
-    JMenu jm_datei, jm_hilfe;
-    JMenuItem jmi_datei_beenden,
+    JMenu jm_datei, jm_datei_config, jm_hilfe;
+    JMenuItem jmi_datei_config_reset, jmi_datei_config_show, jmi_datei_beenden,
             jmi_hilfe_hilfe, jmi_hilfe_about;
     ///////////////////////////////////////////////////////////////////////////
     //                                                                       //
@@ -67,6 +72,18 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
     JLabel lbl_about, lbl_about_programmierer, lbl_about_name, lbl_about_strasse,
             lbl_about_plz_ort, lbl_about_eMail, lbl_about_version, 
             lbl_about_version_nr, lbl_about_c;
+    ///////////////////////////////////////////////////////////////////////////
+    //                                                                       //
+    // Deklaration Dialogfenster Config-Show                                 //
+    //                                                                       //
+    ///////////////////////////////////////////////////////////////////////////     
+    JDialog jd_config;
+    JScrollPane js_config;
+    JTable jt_config;
+    ArrayList configTemp;
+    rezeptinator_config_conf rcc;
+    String[][] daten;
+    String[] titel;
     /**
      * Kontruktor Startfenster Rezeptinator
      * @author Markus Badzura
@@ -82,6 +99,7 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
         {
             err.schreibe(e.toString(), "rezeptinator_gui");
         }
+        config.rezeptinator_config();
         this.setTitle("Rezeptinator v1.0");
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -105,7 +123,7 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
     /**
      * Setzen der Menüleiste
      * @author Markus Badzura
-     * @since 1.0.003
+     * @since 1.0.007
      */
     private void setMenuBar()
     {
@@ -113,9 +131,19 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
         jmb.setBorder(bo_menuBar);
         jm_datei = new JMenu("Datei");
         jm_datei.setMnemonic('D');
+        jm_datei_config = new JMenu("Config");
+        jm_datei_config.setMnemonic('C');
+        jmi_datei_config_reset = new JMenuItem("zurücksetzen",'z');
+        jmi_datei_config_reset.addActionListener(this);
+        jmi_datei_config_show = new JMenuItem("anzeigen",'s');
+        jmi_datei_config_show.addActionListener(this);
+        jm_datei_config.add(jmi_datei_config_show);
+        jm_datei_config.add(jmi_datei_config_reset);
         jmi_datei_beenden = new JMenuItem("Beenden",'B');
         jmi_datei_beenden.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_DOWN_MASK));
         jmi_datei_beenden.addActionListener(this);
+        jm_datei.add(jm_datei_config);
+        jm_datei.add(new JSeparator());
         jm_datei.add(jmi_datei_beenden);
         jm_hilfe = new JMenu("Hilfe");
         jm_hilfe.setMnemonic('H');
@@ -146,6 +174,45 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
                 System.exit(0);
         }
     }   
+    /**
+     * Anzeigen der Konfigurationswerte
+     * @author Markus Badzura
+     * @since 1.0.007
+     */
+    private void showConfig()
+    {
+        configTemp = new ArrayList();
+        configTemp = config.getConfigObjekt();
+        rcc = new rezeptinator_config_conf();
+        daten = new String[configTemp.size()][2];
+        titel = new String [] {"name", "wert"};
+        for (int i = 0; i<configTemp.size();i++)
+        {
+            rcc = (rezeptinator_config_conf)configTemp.get(i);
+            daten[i][0] = rcc.getName();
+            daten[i][1] = rcc.getWert();
+        }
+        jd_config = new JDialog(this,"Konfigurationswerte",true);
+        jd_config.setSize(SCREENSIZE.width/2, SCREENSIZE.height);
+        jd_config.setLocation(SCREENSIZE.width/4,0);
+        jd_config.setLayout(null);
+        jd_config.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        jd_config.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                jd_config.dispose();
+            }
+        });
+        jt_config = new JTable(daten,titel);
+        jt_config.setEnabled(false);
+        js_config = new JScrollPane();
+        js_config.setSize(jd_config.getSize());
+        js_config.setLocation(0,0);
+        js_config.setViewportView(jt_config);
+        jd_config.add(js_config);
+        jd_config.setVisible(true);
+    }
     /**
      * Hilfefenster öffnen
      * @author Markus Badzura
@@ -238,11 +305,21 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
      * Action-Listener für Menü- und Button-Ereignisses
      * @param e Auslöserobjekt
      * @author Markus Badzura
-     * @since 1.0.003
+     * @since 1.0.007
      */
     @Override
     public void actionPerformed(ActionEvent e) 
     {
+        // Menüpunkt DATEI - CONFIG - ANZEIGEN
+        if (e.getSource() == jmi_datei_config_show)
+        {
+            showConfig();
+        }
+        // Menüpunkt DATEI - CONFIG - ZURÜCKSETZEN
+        if (e.getSource() == jmi_datei_config_reset)
+        {
+            config.rewriteConfig();
+        }
         // Menüpunkt DATEI - BEENDEN
         if (e.getSource() == jmi_datei_beenden)
         {
