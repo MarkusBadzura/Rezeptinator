@@ -47,12 +47,14 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
     // Erstellen ImageIcon-Objekt
     private static final ImageIcon ICON = new ImageIcon(URLICON);
     private static final Dimension SCREENSIZE = java.awt.Toolkit.getDefaultToolkit().getScreenSize ();
-    private final String VERSIONSNUMMER = "1.0.007";
+    private final String VERSIONSNUMMER = "1.0.008";
     private final String VERSION = "1.0";
     private rezeptinator_hilfe rzh = new rezeptinator_hilfe();
     private rezeptinator_hintergrund bgp,bgp_dia;
     private rezeptinator_errorlog err = new rezeptinator_errorlog();
     private rezeptinator_config config = new rezeptinator_config();
+    private rezeptinator_database database = 
+            new rezeptinator_database();
     ///////////////////////////////////////////////////////////////////////////
     //                                                                       //
     // Deklaration MenuBar                                                   //
@@ -100,6 +102,7 @@ public class rezeptinator_gui extends JFrame implements ActionListener, KeyListe
             err.schreibe(e.toString(), "rezeptinator_gui");
         }
         config.rezeptinator_config();
+        database.determineVersion();
         this.setTitle("Rezeptinator v1.0");
         this.setExtendedState(MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
