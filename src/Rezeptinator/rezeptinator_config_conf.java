@@ -3,15 +3,15 @@ package Rezeptinator;
 /**
  * Rezeptinator Config-Objekte
  * @author Markus Badzura
- * @version 1.0.007
+ * @version 1.0.009
  */
 public class rezeptinator_config_conf 
 {
-    ///////////////////////////////////////////////////////////////////////////
-    //                                                                       //
-    // Variablendeklaration                                                  //
-    //                                                                       //
-    ///////////////////////////////////////////////////////////////////////////     
+    //////////////////////////////////////////////////////////////////
+    //                                                              //
+    // Variablendeklaration                                         //
+    //                                                              //
+    //////////////////////////////////////////////////////////////////     
     private String name;
     private String wert;
     /**

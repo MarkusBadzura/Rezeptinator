@@ -16,15 +16,15 @@ import org.jdom2.output.XMLOutputter;
 /**
  * Rezeptinator Konfigurationsdatei
  * @author Markus Badzura
- * @version 1.0.007
+ * @version 1.0.009
  */
 public class rezeptinator_config 
 {
-    ///////////////////////////////////////////////////////////////////////////
-    //                                                                       //
-    // Deklaration und Initialisation config                                 //
-    //                                                                       //
-    ///////////////////////////////////////////////////////////////////////////       
+    //////////////////////////////////////////////////////////////////
+    //                                                              //
+    // Deklaration und Initialisation config                        //
+    //                                                              //
+    //////////////////////////////////////////////////////////////////       
     private File configfile = new File("xml/config.xml");
     private rezeptinator_errorlog err = new rezeptinator_errorlog();
     private ArrayList configobjekt;
@@ -64,7 +64,7 @@ public class rezeptinator_config
     /**
      * Config-XML auslesen und ArrayList der Config-Werte erzeugen
      * @author Markus Badzura
-     * @since 1.0.007
+     * @since 1.0.009
      */
     private void readConfig()
     {
@@ -80,7 +80,8 @@ public class rezeptinator_config
                 Element node = (Element) list.get(i);
                 name = node.getAttribute("name").getValue();
                 wert = node.getChild("wert").getTextTrim();
-                rezeptinator_config_conf temp = new rezeptinator_config_conf(name,wert);
+                rezeptinator_config_conf temp = 
+                        new rezeptinator_config_conf(name,wert);
                 configobjekt.add(temp);
             }
         } 
@@ -92,13 +93,14 @@ public class rezeptinator_config
     /**
      * Configdatei erstmalig anlegen
      * @author Markus Badzura
-     * @since 1.0.007
+     * @since 1.0.009
      */
     private void writeNewConfig()
     {
         Element root = new Element("config");
         Document doc = new Document(root);
-        root.addContent(new Element("content").setAttribute("name", "version")
+        root.addContent(new Element("content")
+                .setAttribute("name", "version")
                 .addContent(new Element("wert").addContent("1.0")));
         XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
         try
